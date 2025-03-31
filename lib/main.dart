@@ -1,8 +1,9 @@
 import 'package:amazon_clone/common/widgets/bottom_bar.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/admin/screens/admin_screen.dart';
 import 'package:amazon_clone/features/auth/screens/auth.dart';
 import 'package:amazon_clone/features/auth/services/userService.dart';
-import 'package:amazon_clone/features/home/screens/home_screen.dart';
+
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:amazon_clone/router.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,11 @@ class _MyAppState extends State<MyApp> {
             )),
         debugShowCheckedModeBanner: false,
         onGenerateRoute: (settings) => generateRoute(settings),
-        home: Provider.of<UserProvider>(context).user.token.isNotEmpty?BottomBar():AuthScreen());
+        home: Provider.of<UserProvider>(context).user.token.isNotEmpty
+            ? Provider.of<UserProvider>(context).user.type == "user"
+                ? BottomBar()
+                : AdminScreen()
+            : AuthScreen());
   }
 }
 // mongodb+srv://arunkumar:<db_password>@cluster0.3pnl6.mongodb.net/
