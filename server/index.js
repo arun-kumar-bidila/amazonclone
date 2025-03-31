@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const authRouter = require("./routers/authRouter");
+const adminRouter = require("./routers/admin");
 
 const PORT = 3000;
 const app = express();
@@ -9,6 +10,7 @@ const db = "mongodb+srv://arunkumar:Arun5452@cluster0.3pnl6.mongodb.net/myDataba
 // Middleware
 app.use(express.json()); // Parses incoming JSON requests
 app.use(authRouter);
+app.use(adminRouter);
 
 // Database connection
 mongoose
