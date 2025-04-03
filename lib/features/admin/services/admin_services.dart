@@ -22,19 +22,24 @@ class AdminServices {
     required List<File> images,
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    try {
       final cloudinary = CloudinaryPublic("duoenlwuj", "amazonclone");
-      List<String> imageUrls = [];
+        List<String> imageUrls = [];
 
-      // Uploading all images
-      for (int i = 0; i < images.length; i++) {
-        CloudinaryResponse res = await cloudinary.uploadFile(
-          CloudinaryFile.fromFile(images[i].path, folder: name),
-        );
-        imageUrls.add(res.secureUrl);
+    try {
+      try {
+      
+        // Uploading all images
+        for (int i = 0; i < images.length; i++) {
+          CloudinaryResponse res = await cloudinary.uploadFile(
+            CloudinaryFile.fromFile(images[i].path, folder: name),
+          );
+          imageUrls.add(res.secureUrl);
+        }
+
+        print("\nAll images uploaded to Cloudinary\n");
+      } catch (e) {
+        print("error in cludinary");
       }
-
-      print("\nAll images uploaded to Cloudinary\n");
 
       // Creating product object AFTER all images are uploaded
       Product product = Product(

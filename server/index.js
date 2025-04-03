@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const authRouter = require("./routers/authRouter");
 const adminRouter = require("./routers/admin");
+const productRouter = require("./routers/product");
 
 const PORT = 3000;
 const app = express();
@@ -11,7 +12,7 @@ const db = "mongodb+srv://arunkumar:Arun5452@cluster0.3pnl6.mongodb.net/myDataba
 app.use(express.json()); // Parses incoming JSON requests
 app.use(authRouter);
 app.use(adminRouter);
-
+app.use(productRouter);
 // Database connection
 mongoose
     .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
