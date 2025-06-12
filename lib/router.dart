@@ -28,8 +28,9 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
                 catergory: category,
               ));
     case Searchscreen.routeName:
+      var searchQuery = routeSettings.arguments as String;
       return MaterialPageRoute(
-          settings: routeSettings, builder: (_) => Searchscreen());
+          settings: routeSettings, builder: (_) => Searchscreen(searchQuery: searchQuery,));
     default:
       return MaterialPageRoute(
           settings: routeSettings,

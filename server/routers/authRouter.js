@@ -44,7 +44,7 @@ authRouter.post("/api/signin",async(req,res)=>{
     const isMatch=await bcryptjs.compare(password,user.password);
 
     if(!isMatch){
-        res.status(400).json({
+         res.status(400).json({
             msg:"username and password do not match"
         });
     }
@@ -89,6 +89,7 @@ authRouter.get("/",auth,async(req,res)=>{
     try {
         const user=await User.findById(req.user);
     res.json({token:req.token,...user._doc});
+   
         
     } catch (e) {
         res.status(500).json({error:e.message});
