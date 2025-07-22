@@ -4,10 +4,12 @@ const authRouter = require("./routers/authRouter");
 const adminRouter = require("./routers/admin");
 const productRouter = require("./routers/product");
 const userRouter=require("./routers/userRouter");
+require("dotenv").config();
+
 
 const PORT = 3000;
 const app = express();
-const db = "mongodb+srv://arunkumar:Arun5452@cluster0.3pnl6.mongodb.net/myDatabaseName";
+const db = process.env.MONGO_URI;
 
 // Middleware
 app.use(express.json()); // Parses incoming JSON requests
