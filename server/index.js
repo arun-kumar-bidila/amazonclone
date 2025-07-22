@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const authRouter = require("./routers/authRouter");
 const adminRouter = require("./routers/admin");
 const productRouter = require("./routers/product");
+const userRouter=require("./routers/userRouter");
 
 const PORT = 3000;
 const app = express();
@@ -13,6 +14,7 @@ app.use(express.json()); // Parses incoming JSON requests
 app.use(authRouter);
 app.use(adminRouter);
 app.use(productRouter);
+app.use(userRouter);
 // Database connection
 mongoose
     .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })

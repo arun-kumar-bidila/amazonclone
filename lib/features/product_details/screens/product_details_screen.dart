@@ -35,13 +35,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     for (int i = 0; i < widget.product.rating!.length; i++) {
       totalRating += widget.product.rating![i].rating;
       if (widget.product.rating![i].userId ==
-          Provider.of<UserProvider>(context,listen: false).user.id) {
+          Provider.of<UserProvider>(context, listen: false).user.id) {
         myRating = widget.product.rating![i].rating;
       }
     }
     if (totalRating != 0) {
       avgRating = totalRating / widget.product.rating!.length;
     }
+  }
+
+  void addToCart()  {
+    productDetailsServices.addToCart(context: context, product: widget.product);
   }
 
   @override
@@ -193,7 +197,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               padding: const EdgeInsets.all(10.0),
               child: CustomButton(
                 text: "Add to Cart",
-                onTap: () {},
+                onTap: () {
+                  addToCart();
+                },
                 color: Color.fromRGBO(254, 216, 19, 1),
               ),
             ),

@@ -23,7 +23,6 @@ class Homeservices {
       });
       print("API URL: $uri/api/products?category=$category");
 
-
       httpErrorHandler(
           context: context,
           response: res,
@@ -33,10 +32,40 @@ class Homeservices {
                   .add(Product.fromJson(jsonEncode(jsonDecode(res.body)[i])));
             }
           });
-          print("fetchCategoryProducts3");
+      print("fetchCategoryProducts3");
     } catch (e) {
       showSnackbar(context, e.toString());
     }
     return productList;
+  }
+
+  Future<Product> fetchDealOfTheDay({required BuildContext context}) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    Product product = Product(
+        name: "",
+        description: "",
+        quantity: 0,
+        images: [],
+        category: "",
+        price: 0);
+    try {
+      http.Response res =
+          await http.get(Uri.parse("$uri/api/deal-of-the-day"), headers: {
+        "Content-type": "application/json;charset=UTF-8",
+        "x-auth-token": userProvider.user.token
+      });
+
+      print(res.body);
+
+      httpErrorHandler(
+          context: context,
+          response: res,
+          onSuccess: () {
+            product = Product.fromJson(res.body);
+          });
+      return product;
+    } catch (e) {
+      return product;
+    }
   }
 }
