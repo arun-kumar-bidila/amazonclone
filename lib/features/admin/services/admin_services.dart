@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:amazon_clone/constants/error_Handling.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/constants/utils.dart';
+import 'package:amazon_clone/models/order.dart';
 import 'package:amazon_clone/models/product.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
@@ -22,12 +23,11 @@ class AdminServices {
     required List<File> images,
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-      final cloudinary = CloudinaryPublic("duoenlwuj", "amazonclone");
-        List<String> imageUrls = [];
+    final cloudinary = CloudinaryPublic("duoenlwuj", "amazonclone");
+    List<String> imageUrls = [];
 
     try {
       try {
-      
         // Uploading all images
         for (int i = 0; i < images.length; i++) {
           CloudinaryResponse res = await cloudinary.uploadFile(
@@ -128,5 +128,32 @@ class AdminServices {
     } catch (e) {
       showSnackbar(context, e.toString());
     }
+  }
+
+  Future<List<Order>> fetchAllOrders({required BuildContext context}) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    List<Order> orderList = [];
+
+    try {
+      http.Response res =
+          await http.get(Uri.parse("$uri/admin/get-orders"), headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        'x-auth-token': userProvider.user.token,
+      });
+      print(res.body);
+      httpErrorHandler(
+          context: context,
+          response: res,
+          onSuccess: () {
+            for (int i = 0; i < jsonDecode(res.body).length; i++) {
+              orderList
+                  .add(Order.fromJson(jsonEncode(jsonDecode(res.body)[i])));
+            }
+          });
+    } catch (e) {
+      showSnackbar(context, e.toString());
+    }
+    print(orderList);
+    return orderList;
   }
 }

@@ -3,6 +3,7 @@ const adminRouter = express.Router();
 const {Product} = require("../models/productModel");
 
 const admin = require("../middlewares/adminMiddleware");
+const Order=require("../models/orderModel");
 
 
 
@@ -60,6 +61,17 @@ adminRouter.post("/admin/delete-product", admin, async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: err.message })
     }
-})
+});
+
+adminRouter.get("/admin/get-orders",admin,async(req,res)=>{
+    try {
+        const orders=await Order.find({});
+        res.json(orders);
+        
+    } catch (e) {
+        res.status(500).json({error:e.message});
+        
+    }
+});
 
 module.exports = adminRouter;
