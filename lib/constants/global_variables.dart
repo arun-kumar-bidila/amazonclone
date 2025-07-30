@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-String uri = "https://amazonclone-037j.onrender.com";
+// String uri = "https://amazonclone-037j.onrender.com";
+String uri = "http://172.26.9.59:3000";
+
 
 class GlobalVariables {
   static const appBarGradient = LinearGradient(
@@ -16,7 +18,6 @@ class GlobalVariables {
   static const Color greyBackgroundCOlor = Color(0xffebecee);
   static var selectedNavBarColor = Colors.cyan[800]!;
   static const unselectedNavBarColor = Colors.black87;
-
 
   static const List<String> carouselImages = [
     'https://images-eu.ssl-images-amazon.com/images/G/31/img21/Wireless/WLA/TS/D37847648_Accessories_savingdays_Jan22_Cat_PC_1500.jpg',
