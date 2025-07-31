@@ -6,6 +6,7 @@ import 'package:amazon_clone/features/auth/services/userService.dart';
 import 'package:flutter/material.dart';
 
 class AdminScreen extends StatefulWidget {
+  static const String routeName = "/admin-screen";
   const AdminScreen({super.key});
 
   @override
@@ -17,11 +18,7 @@ class _AdminScreenState extends State<AdminScreen> {
   double bottomBarWidth = 42;
   double bottomBarBorderWidth = 5;
 
-  List<Widget> pages = [
-    PostsScreen(),
-    AnalyticsScreen(),
-    OrdersScreen()
-  ];
+  List<Widget> pages = [PostsScreen(), AnalyticsScreen(), OrdersScreen()];
 
   void updatePage(int page) {
     setState(() {

@@ -10,8 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(
-    MultiProvider(
+  runApp(MultiProvider(
       providers: [ChangeNotifierProvider(create: (context) => UserProvider())],
       child: const MyApp()));
 }
@@ -36,6 +35,17 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+    if (userProvider.isLoading) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          backgroundColor: Colors.white,
+          
+          body: Center(child: CircularProgressIndicator()),
+        ),
+      );
+    }
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -52,8 +62,8 @@ class _MyAppState extends State<MyApp> {
             )),
         debugShowCheckedModeBanner: false,
         onGenerateRoute: (settings) => generateRoute(settings),
-        home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-            ? Provider.of<UserProvider>(context).user.type == "user"
+        home: userProvider.user.token.isNotEmpty
+            ? userProvider.user.type == "user"
                 ? BottomBar()
                 : AdminScreen()
             : AuthScreen());

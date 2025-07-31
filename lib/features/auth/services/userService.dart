@@ -3,6 +3,7 @@ import 'package:amazon_clone/common/widgets/bottom_bar.dart';
 import 'package:amazon_clone/constants/error_Handling.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/constants/utils.dart';
+import 'package:amazon_clone/features/admin/screens/admin_screen.dart';
 import 'package:amazon_clone/features/auth/screens/auth.dart';
 
 import 'package:amazon_clone/models/userModel.dart';
@@ -69,9 +70,16 @@ class AuthService {
             Provider.of<UserProvider>(context, listen: false).setUser(res.body);
             await prefs.setString(
                 "x-auth-token", jsonDecode(res.body)["token"]);
+            final userProvider =
+                Provider.of<UserProvider>(context, listen: false);
+            if (userProvider.user.type == "user") {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, BottomBar.routeName, (route) => false);
+            } else {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, AdminScreen.routeName, (route) => false);
+            }
           });
-      Navigator.pushNamedAndRemoveUntil(
-          context, BottomBar.routeName, (route) => false);
     } catch (e) {
       showSnackbar(context, e.toString());
     }
@@ -99,6 +107,7 @@ class AuthService {
             });
         var userProvider = Provider.of<UserProvider>(context, listen: false);
         userProvider.setUser(userRes.body);
+        userProvider.setIsLoading(false);
       }
     } catch (e) {
       showSnackbar(context, e.toString());

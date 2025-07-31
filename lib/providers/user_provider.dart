@@ -11,8 +11,10 @@ class UserProvider extends ChangeNotifier {
       type: "",
       token: "",
       cart: []);
+  bool _isLoading = true;
 
   User get user => _user;
+  bool get isLoading => _isLoading;
 
   void setUser(String user) {
     _user = User.fromJson(user);
@@ -23,5 +25,9 @@ class UserProvider extends ChangeNotifier {
     _user = user;
     notifyListeners();
   }
-  
+
+  void setIsLoading(bool val) {
+    _isLoading = val;
+    notifyListeners();
+  }
 }
