@@ -156,4 +156,28 @@ class AdminServices {
     print(orderList);
     return orderList;
   }
+
+  void changeOrderStatus(
+      {required BuildContext context,
+      required int status,
+      required Order order,
+      required VoidCallback onSuccess}) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    try {
+      http.Response res =
+          await http.post(Uri.parse("$uri/admin/change-order-status"),
+              headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+                'x-auth-token': userProvider.user.token,
+              },
+              body: jsonEncode({
+                "id": order.id,
+                "status": status,
+              }));
+
+      httpErrorHandler(context: context, response: res, onSuccess: onSuccess);
+    } catch (e) {
+      showSnackbar(context, e.toString());
+    }
+  }
 }

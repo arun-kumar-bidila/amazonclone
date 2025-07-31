@@ -3,6 +3,7 @@ import 'package:amazon_clone/common/widgets/bottom_bar.dart';
 import 'package:amazon_clone/constants/error_Handling.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/constants/utils.dart';
+import 'package:amazon_clone/features/auth/screens/auth.dart';
 
 import 'package:amazon_clone/models/userModel.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
@@ -99,6 +100,20 @@ class AuthService {
         var userProvider = Provider.of<UserProvider>(context, listen: false);
         userProvider.setUser(userRes.body);
       }
-    } catch (e) {}
+    } catch (e) {
+      showSnackbar(context, e.toString());
+    }
+  }
+
+  void logOut({required BuildContext context}) async {
+    try {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      await sharedPreferences.setString("x-auth-token", "");
+      Navigator.pushNamedAndRemoveUntil(
+          context, AuthScreen.routeName, (route) => false);
+    } catch (e) {
+      showSnackbar(context, e.toString());
+    }
   }
 }
